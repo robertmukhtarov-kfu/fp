@@ -19,7 +19,7 @@ getSubdirs dir = do
       )
     Right contents -> filterM doesDirectoryExist $ map (\file -> dir ++ "/" ++ file) contents
 
-getSubdirsRecursively :: FilePath -> Int -> StateT [FilePath] IO ()
+getSubdirsRecursively :: (MonadState [FilePath] m, MonadIO m) => FilePath -> Int -> m ()
 getSubdirsRecursively dir depth = do
   modify (dir :)
   when (depth > 0) $ do
